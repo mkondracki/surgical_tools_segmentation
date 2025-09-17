@@ -25,7 +25,9 @@ For inference, the **fine-tuned YOLO model** is run on each frame of videos from
 
 #### 4. Evaluation
 The models are evaluated using several metrics. Frame-wise performance is assessed using the Dice coefficient and Intersection over Union (IoU) for each class. Video-level performance is evaluated using mean IoU (mIoU) and Normalized Surface Dice (NSD) to assess overall performance across videos. The evaluation scripts are located in `yolo_sam/evaluation/evaluations`, and visual inspections of model performance can be explored in the notebook `visual_evaluation.ipynb`.  
-This frame-by-frame approach was also chosen with the perspective of real-time applications in mind. For this reason, a short inference-time analysis was additionally conducted in the notebook `visual_evaluation.ipynb`.
+This frame-by-frame approach was also chosen with the perspective of real-time applications in mind. For this reason, a short inference-time analysis was additionally conducted in the notebook `visual_evaluation.ipynb`. Bellow is reported the overall performace on the segmentation task for these models.
+
+![Model Performance](yolo_sam/evaluation/evaluations/visualisation/visualisation.png)
 
 ---
 
