@@ -1,0 +1,22 @@
+# Dataset configuration for surgical tool detection
+path: /data/mkondrac/foundation_model_cardio/code/SAM/yolo_sam/dataset/object_segmentation/yolo_format
+
+# Dataset splits
+train: images/train
+val: images/val  
+test: images/test
+
+# Number of classes
+nc: 9
+
+# Class names (must match the order of class IDs)
+names:
+  0: Tool clasper
+  1: Tool wrist
+  2: Tool shaft
+  3: Suturing needle
+  4: Thread
+  5: Suction tool
+  6: Needle Holder
+  7: Clamps
+  8: Catheter
