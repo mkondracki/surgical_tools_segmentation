@@ -59,7 +59,45 @@ def create_visualization(image, frame_results, colors, alpha=0.5, draw_bbox=True
             label = f"Class {cls_id}: {score:.3f}"
             cv2.putText(overlay, label, (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 
                     colors.get(cls_id, [255, 255, 255]), 2)
+        
+        if "points" in result and result["points"] is not None:
+            pts = result["points"]
+            for (px, py) in pts.astype(int):
+                cv2.circle(overlay, (px, py), radius=4, color=(0, 255, 255), thickness=-1)
     
+    return overlay
+
+def create_visualization(image, frame_results, colors, alpha=0.5, draw_bbox=True, draw_points=True):
+    overlay = image.copy()
+    
+    for result in frame_results:
+        mask = result['mask']
+        cls_id = result['class_id']
+        bbox = result['bbox']
+        score = result['score']
+
+        if mask.dtype != bool:
+            mask = mask.astype(bool)
+        color = tuple(colors.get(cls_id, [255, 255, 255]))
+
+        overlay[mask] = (alpha * overlay[mask] + (1 - alpha) * np.array(color)).astype(np.uint8)
+
+        # draw bbox
+        if draw_bbox:
+            x1, y1, x2, y2 = bbox.astype(int)
+            cv2.rectangle(overlay, (x1, y1), (x2, y2), color, 2)
+            label = f"Class {cls_id}: {score:.3f}"
+            cv2.putText(
+                overlay, label, (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2
+            )
+
+        # draw points (same color as box)
+        if draw_points and "points" in result and result["points"] is not None:
+            pts = result["points"]
+            for (px, py) in np.round(pts).astype(int):
+                cv2.circle(overlay, (px, py), radius=4, color=color, thickness=-1)
+
     return overlay
 
 def create_output_video(viz_dir, output_video_path, fps=30):
